@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Nav from "./Nav";
+import MainBody from "./MainBody";
 
 export interface MovieI {
   imdbID: string;
@@ -82,7 +83,7 @@ export default function App() {
     <>
       <Nav movies={movies} query={query} handleQuery={handleQuery} />
 
-      <main className="main">
+      <MainBody>
         <div className="box">
           <button
             className="btn-toggle"
@@ -164,7 +165,7 @@ export default function App() {
             </>
           )}
         </div>
-      </main>
+      </MainBody>
     </>
   );
 }
