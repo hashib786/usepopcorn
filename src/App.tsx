@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import MainBody from "./MainBody";
 import Box from "./Box";
 import Summery from "./Summery";
+import MovieList from "./MovieList";
 
 export interface MovieI {
   imdbID: string;
@@ -80,20 +81,7 @@ export default function App() {
 
       <MainBody>
         <Box isOpen={isOpen1} setIsOpen={setIsOpen1}>
-          <ul className="list">
-            {movies?.map((movie) => (
-              <li key={movie.imdbID}>
-                <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                <h3>{movie.Title}</h3>
-                <div>
-                  <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <MovieList movies={movies} />
         </Box>
         <Box isOpen={isOpen2} setIsOpen={setIsOpen2}>
           <>

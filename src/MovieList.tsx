@@ -1,10 +1,10 @@
 import { MovieI } from "./App";
 
 type Props = {
-  movies: MovieI;
+  movies: MovieI[];
 };
 
-const List = ({ movies }: Props) => {
+const MovieList = ({ movies }: Props) => {
   return (
     <ul className="list">
       {movies?.map((movie) => (
@@ -23,4 +23,4 @@ const List = ({ movies }: Props) => {
   );
 };
 
-export default List;
+export default MovieList;
