@@ -1,6 +1,18 @@
 import { useState } from "react";
 
-const tempMovieData = [
+interface MovieI {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+}
+interface WatchMovieI extends MovieI {
+  runtime: number;
+  imdbRating: number;
+  userRating: number;
+}
+
+const tempMovieData: MovieI[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -24,7 +36,7 @@ const tempMovieData = [
   },
 ];
 
-const tempWatchedData = [
+const tempWatchedData: WatchMovieI[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
