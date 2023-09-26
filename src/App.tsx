@@ -4,6 +4,7 @@ import MainBody from "./MainBody";
 import Box from "./Box";
 import Summery from "./Summery";
 import MovieList from "./MovieList";
+import WatchedList from "./WatchedList";
 
 export interface MovieI {
   imdbID: string;
@@ -86,29 +87,7 @@ export default function App() {
         <Box isOpen={isOpen2} setIsOpen={setIsOpen2}>
           <>
             <Summery watched={watched} />
-
-            <ul className="list">
-              {watched.map((movie) => (
-                <li key={movie.imdbID}>
-                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                  <h3>{movie.Title}</h3>
-                  <div>
-                    <p>
-                      <span>⭐️</span>
-                      <span>{movie.imdbRating}</span>
-                    </p>
-                    <p>
-                      <span>🌟</span>
-                      <span>{movie.userRating}</span>
-                    </p>
-                    <p>
-                      <span>⏳</span>
-                      <span>{movie.runtime} min</span>
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <WatchedList watched={watched} />
           </>
         </Box>
       </MainBody>
