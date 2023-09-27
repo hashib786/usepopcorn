@@ -69,8 +69,6 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [movies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
-  const [isOpen1, setIsOpen1] = useState(true);
-  const [isOpen2, setIsOpen2] = useState(true);
 
   const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -81,10 +79,10 @@ export default function App() {
       <Nav movies={movies} query={query} handleQuery={handleQuery} />
 
       <MainBody>
-        <Box isOpen={isOpen1} setIsOpen={setIsOpen1}>
+        <Box>
           <MovieList movies={movies} />
         </Box>
-        <Box isOpen={isOpen2} setIsOpen={setIsOpen2}>
+        <Box>
           <>
             <Summery watched={watched} />
             <WatchedList watched={watched} />

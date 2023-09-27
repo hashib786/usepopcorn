@@ -1,12 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 type Props = {
   children: ReactNode;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function Box({ children, isOpen, setIsOpen }: Props) {
+function Box({ children }: Props) {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
