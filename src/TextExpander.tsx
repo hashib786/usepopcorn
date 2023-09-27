@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { useState } from "react";
 import "./styles.css";
 
 export default function TextExpanders() {
@@ -36,8 +36,37 @@ export default function TextExpanders() {
 }
 
 type TextI = {
-  children: ReactNode;
+  children: string;
+  collapsedNumWords?: number;
+  expandButtonText?: string;
+  collapseButtonText?: string;
+  buttonColor?: string;
+  expanded?: boolean;
+  className?: string;
 };
-function TextExpander({ children }: TextI) {
-  return <div>{children}</div>;
+function TextExpander({
+  children,
+  collapsedNumWords = 10,
+  expandButtonText = "show more",
+  collapseButtonText = "show less",
+  buttonColor = "white",
+  expanded = false,
+  className = "",
+}: TextI) {
+  const [collapsed, setCollapsed] = useState(expanded);
+  const displayText = !collapsed
+    ? children.split(" ").slice(0, collapsedNumWords).join(" ") + "..."
+    : children;
+  return (
+    <div className={className}>
+      {displayText}{" "}
+      <button
+        style={{ backgroundColor: buttonColor }}
+        onClick={() => setCollapsed((exp) => !exp)}
+      >
+        {collapsed ? collapseButtonText : expandButtonText}
+      </button>
+      <br />
+    </div>
+  );
 }
