@@ -7,11 +7,11 @@ type PropsS = {
 const Star = ({ onClick, full }: PropsS) => {
   return full ? (
     <span onClick={onClick} style={{ marginRight: "10px", cursor: "pointer" }}>
-      S
+      ⭐
     </span>
   ) : (
     <span onClick={onClick} style={{ marginRight: "10px", cursor: "pointer" }}>
-      H
+      ✡️
     </span>
   );
 };
