@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "./Nav";
 import MainBody from "./MainBody";
 import Box from "./Box";
@@ -65,10 +65,19 @@ const tempWatchedData: WatchMovieI[] = [
   },
 ];
 
+const KEY = "2b099c57";
+
 export default function App() {
   const [query, setQuery] = useState("");
-  const [movies] = useState<MovieI[]>(tempMovieData);
+  const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
+  console.log(movies);
+
+  useEffect(() => {
+    fetch(`https://www.omdbapi.com/?apikey=${KEY}&s=india`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
 
   const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
