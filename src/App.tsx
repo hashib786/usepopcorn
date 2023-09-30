@@ -68,10 +68,10 @@ const tempWatchedData: WatchMovieI[] = [
   },
 ];
 
-const KEY = "2b099c57";
+export const KEY = "2b099c57";
 
 export default function App() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("india");
   const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +131,10 @@ export default function App() {
         </Box>
         <Box>
           {selectId ? (
-            <MovieDetail onCloseMovie={handleCloseMovie} id={selectId} />
+            <MovieDetail
+              onCloseMovie={handleCloseMovie}
+              selectedId={selectId}
+            />
           ) : (
             <>
               <Summery watched={watched} />
