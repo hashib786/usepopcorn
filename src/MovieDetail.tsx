@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { KEY } from "./App";
 import Loader from "./Loader";
-import StarComponents from "./StarComponents";
+import StarRating from "./StarComponents";
 
 type IdType = {
   selectedId: string;
@@ -79,7 +79,7 @@ const MovieDetail = ({ selectedId, onCloseMovie }: IdType) => {
 
           <section>
             <div className="rating">
-              <StarComponents max={10} />
+              <StarRating maxRating={10} size={20} onSetRating={() => {}} />
             </div>
             <p>
               <em>{plot}</em>
