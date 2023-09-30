@@ -70,7 +70,7 @@ const tempWatchedData: WatchMovieI[] = [
 const KEY = "2b099c57";
 
 export default function App() {
-  const [query, setQuery] = useState("india");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +78,13 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return;
+      }
       try {
+        setError("");
         setIsLoading(true);
         const res = await fetch(
           `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
