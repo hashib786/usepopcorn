@@ -5,6 +5,7 @@ import Box from "./Box";
 import Summery from "./Summery";
 import MovieList from "./MovieList";
 import WatchedList from "./WatchedList";
+import Loader from "./Loader";
 
 export interface MovieI {
   imdbID: string;
@@ -71,15 +72,18 @@ export default function App() {
   const [query, setQuery] = useState("india");
   const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
+  const [isLoading, setIsLoading] = useState(false);
   console.log(movies);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const res = await fetch(
         `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
       );
       const data = await res.json();
       setMovies(data.Search);
+      setIsLoading(false);
     })();
   }, [query]);
 
@@ -92,9 +96,7 @@ export default function App() {
       <Nav movies={movies} query={query} handleQuery={handleQuery} />
 
       <MainBody>
-        <Box>
-          <MovieList movies={movies} />
-        </Box>
+        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
         <Box>
           <>
             <Summery watched={watched} />
