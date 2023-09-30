@@ -68,16 +68,20 @@ const tempWatchedData: WatchMovieI[] = [
 const KEY = "2b099c57";
 
 export default function App() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("india");
   const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
   console.log(movies);
 
   useEffect(() => {
-    fetch(`https://www.omdbapi.com/?apikey=${KEY}&s=india`)
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
-  }, []);
+    (async () => {
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+    })();
+  }, [query]);
 
   const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
