@@ -7,6 +7,7 @@ import MovieList from "./MovieList";
 import WatchedList from "./WatchedList";
 import Loader from "./Loader";
 import ErrorS from "./Error";
+import MovieDetail from "./MovieDetail";
 
 export interface MovieI {
   imdbID: string;
@@ -74,7 +75,14 @@ export default function App() {
   const [movies, setMovies] = useState<MovieI[]>(tempMovieData);
   const [watched] = useState<WatchMovieI[]>(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectId, setSelectId] = useState<string | null>(null);
   const [error, setError] = useState("");
+
+  const handleSelect = (id: string) => {
+    setSelectId((prev) => (prev === id ? null : id));
+  };
+
+  const handleCloseMovie = () => setSelectId(null);
 
   useEffect(() => {
     (async () => {
@@ -116,14 +124,20 @@ export default function App() {
       <MainBody>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList onSelect={handleSelect} movies={movies} />
+          )}
           {error && <ErrorS message={error} />}
         </Box>
         <Box>
-          <>
-            <Summery watched={watched} />
-            <WatchedList watched={watched} />
-          </>
+          {selectId ? (
+            <MovieDetail onCloseMovie={handleCloseMovie} id={selectId} />
+          ) : (
+            <>
+              <Summery watched={watched} />
+              <WatchedList watched={watched} />
+            </>
+          )}
         </Box>
       </MainBody>
     </>
