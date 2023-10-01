@@ -121,6 +121,8 @@ export default function App() {
       }
     })();
 
+    handleCloseMovie();
+
     return () => {
       controller.abort();
     };
