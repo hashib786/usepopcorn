@@ -121,6 +121,10 @@ export default function App() {
     setQuery(e.target.value);
   };
 
+  const handleDeleteWatched = (id: string) => {
+    setWatched((prev) => prev.filter((ele) => ele.imdbID !== id));
+  };
+
   return (
     <>
       <Nav movies={movies} query={query} handleQuery={handleQuery} />
@@ -144,7 +148,10 @@ export default function App() {
           ) : (
             <>
               <Summery watched={watched} />
-              <WatchedList watched={watched} />
+              <WatchedList
+                onDeleteWatched={handleDeleteWatched}
+                watched={watched}
+              />
             </>
           )}
         </Box>

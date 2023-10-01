@@ -2,9 +2,10 @@ import { WatchMovieI } from "./App";
 
 type Props = {
   watched: WatchMovieI[];
+  onDeleteWatched: (id: string) => void;
 };
 
-const WatchedList = ({ watched }: Props) => {
+const WatchedList = ({ watched, onDeleteWatched }: Props) => {
   return (
     <ul className="list">
       {watched.map((movie) => (
@@ -24,6 +25,12 @@ const WatchedList = ({ watched }: Props) => {
               <span>⏳</span>
               <span>{movie.runtime} min</span>
             </p>
+            <button
+              className="btn-delete"
+              onClick={() => onDeleteWatched(movie.imdbID)}
+            >
+              X
+            </button>
           </div>
         </li>
       ))}
