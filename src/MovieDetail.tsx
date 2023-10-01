@@ -48,6 +48,10 @@ const MovieDetail = ({
   useEffect(() => {
     if (!movie) return;
     document.title = `Movie | ${movie.Title}`;
+
+    return () => {
+      document.title = `usePopcorn`;
+    };
   }, [movie]);
 
   if (!movie) return null;
