@@ -4,15 +4,25 @@ import { MovieI } from "./App";
 type Props = {
   query: string;
   movies: MovieI[];
-  handleQuery: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setQuery: (value: React.SetStateAction<string>) => void;
 };
 
-const Nav = ({ movies, query, handleQuery }: Props) => {
+const Nav = ({ movies, query, setQuery }: Props) => {
   const searchInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    searchInput.current?.focus();
-  }, []);
+    const callback = (e: KeyboardEvent) => {
+      if (document.activeElement === searchInput.current) return;
+      if (e.key === "Enter") {
+        setQuery("");
+        searchInput.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", callback);
+
+    return () => document.removeEventListener("keydown", callback);
+  }, [setQuery]);
 
   return (
     <nav className="nav-bar">
@@ -25,7 +35,7 @@ const Nav = ({ movies, query, handleQuery }: Props) => {
         type="text"
         placeholder="Search movies..."
         value={query}
-        onChange={handleQuery}
+        onChange={(e) => setQuery(e.target.value)}
         ref={searchInput}
       />
       <p className="num-results">

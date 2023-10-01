@@ -46,10 +46,6 @@ export default function App() {
     setWatched((prev) => [...prev, movie]);
   };
 
-  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
   const handleDeleteWatched = (id: string) => {
     setWatched((prev) => prev.filter((ele) => ele.imdbID !== id));
   };
@@ -100,7 +96,7 @@ export default function App() {
 
   return (
     <>
-      <Nav movies={movies} query={query} handleQuery={handleQuery} />
+      <Nav movies={movies} query={query} setQuery={setQuery} />
 
       <MainBody>
         <Box>
