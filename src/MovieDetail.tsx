@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { KEY } from "./App";
+import { KEY, WatchMovieI } from "./App";
 import Loader from "./Loader";
 import StarRating from "./StarComponents";
 
 type IdType = {
   selectedId: string;
   onCloseMovie: () => void;
+  onAddWatched: (movie: WatchMovieI) => void;
 };
 
 interface MovieDetails {
@@ -21,9 +22,10 @@ interface MovieDetails {
   Genre: string;
 }
 
-const MovieDetail = ({ selectedId, onCloseMovie }: IdType) => {
+const MovieDetail = ({ selectedId, onCloseMovie, onAddWatched }: IdType) => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -51,7 +53,21 @@ const MovieDetail = ({ selectedId, onCloseMovie }: IdType) => {
     Director: director,
     Genre: genre,
   } = movie;
-  console.log(year);
+
+  const handleAdd = () => {
+    const watchedMovie: WatchMovieI = {
+      imdbID: selectedId,
+      Title: title,
+      Year: year,
+      Poster: poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating,
+    };
+
+    onAddWatched(watchedMovie);
+    onCloseMovie();
+  };
 
   return (
     <div className="details">
@@ -79,7 +95,16 @@ const MovieDetail = ({ selectedId, onCloseMovie }: IdType) => {
 
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={20} onSetRating={() => {}} />
+              <StarRating
+                maxRating={10}
+                size={20}
+                onSetRating={setUserRating}
+              />
+              {userRating > 0 && (
+                <button className="btn-add" onClick={handleAdd}>
+                  + Add to list
+                </button>
+              )}
             </div>
             <p>
               <em>{plot}</em>
