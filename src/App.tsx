@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Nav from "./Nav";
 import MainBody from "./MainBody";
 import Box from "./Box";
@@ -9,6 +9,7 @@ import Loader from "./Loader";
 import ErrorS from "./Error";
 import MovieDetail from "./MovieDetail";
 import { useMovie } from "./useMovie";
+import { useLocalStorage } from "./useLocalStorage";
 
 export interface MovieI {
   imdbID: string;
@@ -28,12 +29,7 @@ export default function App() {
   const [query, setQuery] = useState("india");
   const [selectId, setSelectId] = useState<string | null>(null);
   const { movies, isLoading, error } = useMovie({ query });
-
-  const [watched, setWatched] = useState<WatchMovieI[]>(() => {
-    const data = localStorage.getItem("watched");
-    if (!data) return [];
-    return JSON.parse(data);
-  });
+  const [watched, setWatched] = useLocalStorage<WatchMovieI[]>("watched", []);
 
   const handleSelect = (id: string) => {
     setSelectId((prev) => (prev === id ? null : id));
@@ -48,10 +44,6 @@ export default function App() {
   const handleDeleteWatched = (id: string) => {
     setWatched((prev) => prev.filter((ele) => ele.imdbID !== id));
   };
-
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched]);
 
   return (
     <>
