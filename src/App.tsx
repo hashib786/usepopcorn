@@ -8,6 +8,7 @@ import WatchedList from "./WatchedList";
 import Loader from "./Loader";
 import ErrorS from "./Error";
 import MovieDetail from "./MovieDetail";
+import { useMovie } from "./useMovie";
 
 export interface MovieI {
   imdbID: string;
@@ -25,10 +26,8 @@ export const KEY = "2b099c57";
 
 export default function App() {
   const [query, setQuery] = useState("india");
-  const [movies, setMovies] = useState<MovieI[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectId, setSelectId] = useState<string | null>(null);
-  const [error, setError] = useState("");
+  const { movies, isLoading, error } = useMovie({ query });
 
   const [watched, setWatched] = useState<WatchMovieI[]>(() => {
     const data = localStorage.getItem("watched");
@@ -49,46 +48,6 @@ export default function App() {
   const handleDeleteWatched = (id: string) => {
     setWatched((prev) => prev.filter((ele) => ele.imdbID !== id));
   };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    (async () => {
-      if (query.length < 3) {
-        setMovies([]);
-        setError("");
-        return;
-      }
-      try {
-        setError("");
-        setIsLoading(true);
-        const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-          { signal: controller.signal }
-        );
-        if (!res.ok) throw new Error("Something is Wrong fetching Movie");
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("No Movie Found");
-        setMovies(data.Search);
-        setError("");
-      } catch (error) {
-        if (!(error instanceof Error) || error.name !== "AbortError") {
-          setError(
-            error instanceof Error
-              ? error.message
-              : "Something went wrong when fetching movies"
-          );
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-
-    handleCloseMovie();
-
-    return () => {
-      controller.abort();
-    };
-  }, [query]);
 
   useEffect(() => {
     localStorage.setItem("watched", JSON.stringify(watched));
