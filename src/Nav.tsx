@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { MovieI } from "./App";
 
 type Props = {
@@ -7,6 +8,12 @@ type Props = {
 };
 
 const Nav = ({ movies, query, handleQuery }: Props) => {
+  const searchInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    searchInput.current?.focus();
+  }, []);
+
   return (
     <nav className="nav-bar">
       <div className="logo">
@@ -19,6 +26,7 @@ const Nav = ({ movies, query, handleQuery }: Props) => {
         placeholder="Search movies..."
         value={query}
         onChange={handleQuery}
+        ref={searchInput}
       />
       <p className="num-results">
         Found <strong>{movies.length}</strong> results
