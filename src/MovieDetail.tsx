@@ -54,6 +54,15 @@ const MovieDetail = ({
     };
   }, [movie]);
 
+  useEffect(() => {
+    const callback = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCloseMovie();
+    };
+    document.addEventListener("keydown", callback);
+
+    return () => document.removeEventListener("keydown", callback);
+  }, [onCloseMovie]);
+
   if (!movie) return null;
 
   const {
