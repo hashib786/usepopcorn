@@ -7,6 +7,7 @@ type IdType = {
   selectedId: string;
   onCloseMovie: () => void;
   onAddWatched: (movie: WatchMovieI) => void;
+  watchedMovies: WatchMovieI[];
 };
 
 interface MovieDetails {
@@ -22,7 +23,12 @@ interface MovieDetails {
   Genre: string;
 }
 
-const MovieDetail = ({ selectedId, onCloseMovie, onAddWatched }: IdType) => {
+const MovieDetail = ({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watchedMovies,
+}: IdType) => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState(0);
@@ -69,6 +75,8 @@ const MovieDetail = ({ selectedId, onCloseMovie, onAddWatched }: IdType) => {
     onCloseMovie();
   };
 
+  const isWatched = watchedMovies.find((ele) => ele.imdbID === selectedId);
+
   return (
     <div className="details">
       {isLoading ? (
@@ -95,15 +103,23 @@ const MovieDetail = ({ selectedId, onCloseMovie, onAddWatched }: IdType) => {
 
           <section>
             <div className="rating">
-              <StarRating
-                maxRating={10}
-                size={20}
-                onSetRating={setUserRating}
-              />
-              {userRating > 0 && (
-                <button className="btn-add" onClick={handleAdd}>
-                  + Add to list
-                </button>
+              {!isWatched ? (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    size={20}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated with movie {isWatched.userRating} <span>⭐️</span>
+                </p>
               )}
             </div>
             <p>
