@@ -45,6 +45,11 @@ const MovieDetail = ({
     })();
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!movie) return;
+    document.title = `Movie | ${movie.Title}`;
+  }, [movie]);
+
   if (!movie) return null;
 
   const {
