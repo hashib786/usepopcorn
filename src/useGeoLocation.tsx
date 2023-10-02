@@ -1,19 +1,10 @@
 import { useState } from "react";
 
-// function useGeolocation() {}
-
-type position = {
-  lat?: number;
-  lng?: number;
-};
-
-export default function App() {
+function useGeolocation() {
   const [isLoading, setIsLoading] = useState(false);
   const [countClicks, setCountClicks] = useState(0);
   const [position, setPosition] = useState<position>({});
   const [error, setError] = useState<string | null>(null);
-
-  const { lat, lng } = position;
 
   function getPosition() {
     setCountClicks((count) => count + 1);
@@ -24,6 +15,7 @@ export default function App() {
     setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        console.log(pos);
         setPosition({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
@@ -36,6 +28,19 @@ export default function App() {
       }
     );
   }
+
+  return { isLoading, countClicks, position, error, getPosition };
+}
+
+type position = {
+  lat?: number;
+  lng?: number;
+};
+
+export default function App() {
+  const { isLoading, countClicks, position, error, getPosition } =
+    useGeolocation();
+  const { lat, lng } = position;
 
   return (
     <div>
