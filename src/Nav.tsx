@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { MovieI } from "./App";
+import { useKey } from "./useKey";
 
 type Props = {
   query: string;
@@ -9,20 +10,11 @@ type Props = {
 
 const Nav = ({ movies, query, setQuery }: Props) => {
   const searchInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const callback = (e: KeyboardEvent) => {
-      if (document.activeElement === searchInput.current) return;
-      if (e.key === "Enter") {
-        setQuery("");
-        searchInput.current?.focus();
-      }
-    };
-
-    document.addEventListener("keydown", callback);
-
-    return () => document.removeEventListener("keydown", callback);
-  }, [setQuery]);
+  useKey("Enter", () => {
+    if (document.activeElement === searchInput.current) return;
+    setQuery("");
+    searchInput.current?.focus();
+  });
 
   return (
     <nav className="nav-bar">

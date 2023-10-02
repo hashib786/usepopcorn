@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { KEY, WatchMovieI } from "./App";
 import Loader from "./Loader";
 import StarRating from "./StarComponents";
+import { useKey } from "./useKey";
 
 type IdType = {
   selectedId: string;
@@ -54,14 +55,7 @@ const MovieDetail = ({
     };
   }, [movie]);
 
-  useEffect(() => {
-    const callback = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseMovie();
-    };
-    document.addEventListener("keydown", callback);
-
-    return () => document.removeEventListener("keydown", callback);
-  }, [onCloseMovie]);
+  useKey("Escape", onCloseMovie);
 
   if (!movie) return null;
 
